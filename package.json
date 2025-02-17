@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "express": "^4.21.2",
+    "node": "^23.8.0",
+    "punycode": "^2.3.1"
+  },
+  "name": "w2025-assign1",
+  "version": "1.0.0",
+  "description": "**Please view `COMP4513 Assignment 1.pdf` for instructions**",
+  "main": "art-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mru-comp4513-archive/w2025-assign1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mru-comp4513-archive/w2025-assign1/issues"
+  },
+  "homepage": "https://github.com/mru-comp4513-archive/w2025-assign1#readme"
+}
