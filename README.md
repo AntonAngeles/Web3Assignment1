@@ -11,7 +11,7 @@ This repository houses the code for a RESTful API designed to manage and serve d
 | ------------- | ------------- |
 | /api/eras  | Returns all eras  |
 | /api/galleries  | Returns all galleries  |
-| /api/galleries/$${\color{red}ref$$  | Returns all galleries  |
+| /api/galleries/@@ - ref @@  | Returns all galleries  |
 | /api/galleries  | Returns all galleries  |
 | /api/galleries  | Returns all galleries  |
 | /api/galleries  | Returns all galleries  |
