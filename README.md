@@ -11,8 +11,8 @@ This repository houses the code for a RESTful API designed to manage and serve d
 | ------------- | ------------- |
 | /api/eras  | Returns all eras  |
 | /api/galleries  | Returns all galleries  |
-| /api/galleries/@@ - ref @@  | Returns all galleries  |
-| /api/galleries  | Returns all galleries  |
+| /api/galleries/```ref``` | Returns the specified gallery with  ``` galleryId ``` |
+| /api/galleries/country/```substring```  | Returns the galleries whose country begins with the provided substring  |
 | /api/galleries  | Returns all galleries  |
 | /api/galleries  | Returns all galleries  |
 | /api/galleries  | Returns all galleries  |
