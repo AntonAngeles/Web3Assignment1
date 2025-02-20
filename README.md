@@ -35,4 +35,21 @@ This repository houses the code for a RESTful API designed to manage and serve d
 | /api/counts/topgenres/```ref```  | Returns the genre name and number of paintings for each genre  |
 
 # Test Links
+[/api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[/api/galleries](https://perfect-lunar-circle.glitch.me/api/eras)
+[/api/galleries/```ref```](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
+[api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
 [api/eras](https://perfect-lunar-circle.glitch.me/api/eras)
