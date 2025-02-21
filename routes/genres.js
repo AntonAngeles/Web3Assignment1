@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const handleError = require('../utils/handleError'); 
+const handleError = require('../utils/handleError');
 
 // Returns all genres
 router.get('/', async (req, res) => {
@@ -31,7 +31,7 @@ router.get('/:ref', async (req, res) => {
             .eq('genreId', req.params.ref);
 
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
 
         res.send(data);
@@ -51,8 +51,13 @@ router.get('/painting/:ref', async (req, res) => {
             )
             .eq('paintingId', req.params.ref)
             .order('genreName', { referencedTable: 'genres', ascending: true });
+
+        if (data === null) {
+            return res.status(404).json({ message: "Specified search does not exist." }); // Or handle it differently
+        }
+
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
 
         res.send(data);
