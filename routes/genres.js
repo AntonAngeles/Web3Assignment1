@@ -45,12 +45,10 @@ router.get('/painting/:ref', async (req, res) => {
     try {
         // Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
-            .from('paintingGenres')
-            .select(
-                'paintings(title), genres(*)'
-            )
-            .eq('paintingId', req.params.ref)
-            .order('genreName', { referencedTable: 'genres', ascending: true });
+            .from('genres')
+            .select('genreId, genreName, eras(*), paintingGenres!inner()')
+            .eq('paintingGenres.paintingId', req.params.ref)
+            .order('genreName', { ascending: true });
 
         if (data === null) {
             return res.status(404).json({ message: "Specified search does not exist." }); // Or handle it differently

@@ -2,15 +2,17 @@ const express = require('express');
 const router = express.Router();
 const handleError = require('../utils/handleError'); // Error Handler
 
+const columns = `paintingId, imageFileName, title, shapeId, museumLink, accessionNumber, 
+                      copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, 
+                      MSRP, googleLink, googleDescription, wikiLink, jsonAnnotations, artists (*), galleries (*)`
+
 // Returns all paintings
 router.get('/', async (req, res) => {
     try {
         // Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintings')
-            .select(
-                'paintingId, imageFileName, title, museumLink, accessionNumber, copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, MSRP, wikiLink, jsonAnnotations, artists(*), galleries(*)'
-            )
+            .select(columns)
             .order('title', { ascending: true });
 
         res.send(data);
@@ -23,18 +25,21 @@ router.get('/', async (req, res) => {
 router.get('/sort/:sortBy', async (req, res) => {
     try {
         const sortBy = req.params.sortBy;
+
         let orderBy = 'title'; // Default to order by Title
 
         if (sortBy === 'year') { // If year is called
             orderBy = 'yearOfWork';
         }
-        
+
+        if (sortBy != 'year' && sortBy != 'title') {
+            return res.status(404).json({ message: "Failed to provide right sort." })
+        }
+
         // Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintings')
-            .select(
-                'paintingId, imageFileName, title, museumLink, accessionNumber, copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, MSRP, wikiLink, jsonAnnotations, artists(*), galleries(*)'
-            )
+            .select(columns)
             .order(orderBy, { ascending: true });
 
         res.send(data);
@@ -49,14 +54,12 @@ router.get('/:ref', async (req, res) => {
         // Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintings')
-            .select(
-                'paintingId, imageFileName, title, museumLink, accessionNumber, copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, MSRP, wikiLink, jsonAnnotations, artists(*), galleries(*)'
-            )
+            .select(columns)
             .eq('paintingId', req.params.ref)
             .order('title', { ascending: true });
 
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified paintings not found." }); 
+            return res.status(404).json({ message: "Specified paintings not found." });
         }
 
         res.send(data);
@@ -71,13 +74,11 @@ router.get('/search/:string', async (req, res) => {
         // Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintings')
-            .select(
-                'paintingId, imageFileName, title, museumLink, accessionNumber, copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, MSRP, wikiLink, jsonAnnotations, artists(*), galleries(*)'
-            )
+            .select(columns)
             .ilike('title', `%${req.params.string}%`)
             .order('title', { ascending: true });
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
         res.send(data);
     } catch (err) {
@@ -94,16 +95,19 @@ router.get('/years/:start/:end', async (req, res) => {
         // Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintings')
-            .select(
-                'paintingId, imageFileName, title, museumLink, accessionNumber, copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, MSRP, wikiLink, jsonAnnotations, artists(*), galleries(*)'
-            )
+            .select(columns)
             .gte('yearOfWork', start)
             .lte('yearOfWork', end)
             .order('yearOfWork', { ascending: true });
 
-        if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search doesnt exist and/or end year is earlier than the start." }); 
+        if(end < start) {
+            return res.status(404).json({ message: "End year is earlier than start year." });
         }
+
+        if (data.length === 0) {  // Check for empty data array
+            return res.status(404).json({ message: "Specified search doesnt exist." });
+        }
+
         res.send(data);
     } catch (err) {
         handleError(res, err, "Failed to get paintings");
@@ -116,14 +120,12 @@ router.get('/galleries/:ref', async (req, res) => {
     try {// Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintings')
-            .select(
-                'paintingId, imageFileName, title, museumLink, accessionNumber, copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, MSRP, wikiLink, jsonAnnotations, artists(*), galleries(*)'
-            )
+            .select(columns)
             .eq('galleryId', req.params.ref)
             .order('title', { ascending: true });
 
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
         res.send(data);
     } catch (err) {
@@ -136,14 +138,12 @@ router.get('/artist/:ref', async (req, res) => {
     try {// Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintings')
-            .select(
-                'paintingId, imageFileName, title, museumLink, accessionNumber, copyrightText, description, excerpt, yearOfWork, width, height, medium, cost, MSRP, wikiLink, jsonAnnotations, artists(*), galleries(*)'
-            )
+            .select(columns)
             .eq('artistId', req.params.ref)
             .order('title', { ascending: true });
 
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
         res.send(data);
     } catch (err) {
@@ -163,7 +163,7 @@ router.get('/artist/country/:ref', async (req, res) => {
             .order('title', { ascending: true });
 
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
 
         res.send(data);
@@ -176,13 +176,13 @@ router.get('/artist/country/:ref', async (req, res) => {
 router.get('/genre/:ref', async (req, res) => {
     try {// Provide Supabase Query Builder Query
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
-            .from('paintingGenres')
-            .select(
-                'genres(genreName),paintings(paintingId, title, yearOfWork)'
-            )
-            .eq('genreId', req.params.ref);
+            .from('paintings')
+            .select(`paintingId, title, yearOfWork, paintingGenres!inner ()`)
+            .eq('paintingGenres.genreId', req.params.ref)
+            .order('yearOfWork', { ascending: true });
+
         if (data.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
         res.send(data);
     } catch (err) {
@@ -210,7 +210,7 @@ router.get('/era/:ref', async (req, res) => {
         processedData.sort((a, b) => a.year - b.year); // Ascending
 
         if (processedData.length === 0) {  // Check for empty data array
-            return res.status(404).json({ message: "Specified search does not exist." }); 
+            return res.status(404).json({ message: "Specified search does not exist." });
         }
         res.send(processedData);
     } catch (err) {
