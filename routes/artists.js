@@ -40,7 +40,7 @@ router.get('/search/:string', async (req, res) => {
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('artists')
             .select()
-            .ilike('lastName', `%${string}%`);
+            .ilike('lastName', `${string}%`);
 
         if (data.length === 0) {  // Check for empty data array
             return res.status(404).json({ message: "Artist not found." }); 
@@ -58,7 +58,7 @@ router.get('/country/:string', async (req, res) => {
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('artists')
             .select()
-            .ilike('nationality', `%${string}%`);
+            .ilike('nationality', `${string}%`);
 
         if (data.length === 0) {  // Check for empty data array
             return res.status(404).json({ message: "Specified country not found." }); 
