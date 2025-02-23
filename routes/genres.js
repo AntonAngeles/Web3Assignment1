@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('genres')
             .select(
-                'genreId, genreName, description, wikiLink, eras()'
+                'genreId, genreName, description, wikiLink, eras(*)'
             );
 
         res.send(data);
@@ -26,7 +26,7 @@ router.get('/:ref', async (req, res) => {
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('genres')
             .select(
-                'genreId, genreName, description, wikiLink, eras()'
+                'genreId, genreName, description, wikiLink, eras(*)'
             )
             .eq('genreId', req.params.ref);
 
