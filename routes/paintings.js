@@ -178,7 +178,7 @@ router.get('/genre/:ref', async (req, res) => {
         const { data, error } = await req.app.get('supabase') // Take the supabase instance in the request from art-server.js
             .from('paintingGenres')
             .select(
-                'genres(genreName),paintings(*)'
+                'genres(genreName),paintings(paintingId, title, yearOfWork)'
             )
             .eq('genreId', req.params.ref);
         if (data.length === 0) {  // Check for empty data array
