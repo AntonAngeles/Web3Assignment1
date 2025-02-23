@@ -36,8 +36,7 @@ router.get('/artists', async (req, res) => {
 
         // Process the data so that we can order the counts
         const processedData = data.map(item => ({
-            firstName: item.firstName,
-            lastName: item.lastName,
+            name: (`${item.firstName} ${item.lastName}`),
             paintingCount: item.paintings[0]?.count || 0
         }));
 
